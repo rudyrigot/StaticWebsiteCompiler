@@ -1,5 +1,13 @@
 package com.rudyrigot.staticwebsitecompiler.parsers;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+
 import com.rudyrigot.staticwebsitecompiler.websiteversion.WebsiteVersion;
 
 public class WebpageParser {
@@ -23,8 +31,32 @@ public class WebpageParser {
 		this.output = new StringBuffer();
 	}
 
-	public void parse() {
-		System.out.println("Fichier en traitement : "+fileName);
+	public String parse() {
+		try {
+			String line = null;
+			BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(new File(websiteRoot+"/sources/rootpages/"+fileName))));
+			while ((line = br.readLine())!=null) {
+				line = compilingActions.executeCompilingActions(version, line, fileName);
+				output.append(line);
+			}
+			br.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		if (fileType==FILETYPE_ROOTPAGE) {
+			String outputFileName = websiteRoot+"/WebContent/"+version.getSubfolderName()+"/"+version.getFilenamePrefix()+fileName.replaceAll(".html$", "")+version.getFilenameSuffixe()+".html";
+			try {
+				PrintWriter pw = new PrintWriter(new File(outputFileName));
+				pw.append(output.toString());
+				pw.close();
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
+			System.out.println("File treated : "+fileName);
+		}
+		return output.toString();
 	}
 
 }
