@@ -54,7 +54,7 @@ public class WebpageParser {
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			}
-			System.out.println("File treated : "+fileName);
+			System.out.println("File treated : "+fileName+" (version "+version.getVersionNumber()+")");
 		}
 		return output.toString();
 	}

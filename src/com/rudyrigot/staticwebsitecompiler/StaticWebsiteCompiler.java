@@ -9,6 +9,7 @@ import com.rudyrigot.staticwebsitecompiler.batch.BatchScripter;
 import com.rudyrigot.staticwebsitecompiler.batch.DefaultBatchScripter;
 import com.rudyrigot.staticwebsitecompiler.parsers.WebpageParser;
 import com.rudyrigot.staticwebsitecompiler.parsers.WebsiteParser;
+import com.rudyrigot.staticwebsitecompiler.websiteversion.WebsiteVersion;
 
 public class StaticWebsiteCompiler {
 	
@@ -41,8 +42,7 @@ public class StaticWebsiteCompiler {
 		if (batchScripter==null) batchScripter = new DefaultBatchScripter();
 		
 		// Checking the version
-		if (version==0) version = 1;
-		else if (version>=batchScripter.getWebsiteVersions().size()) usage("The BatchScripter doesn't have a version "+version+", poor guy only has "+batchScripter.getWebsiteVersions().size());
+		if (version>batchScripter.getWebsiteVersions().size()) usage("The BatchScripter doesn't have a version "+version+", poor guy only has "+batchScripter.getWebsiteVersions().size());
 		
 		// Checking the website root
 		File websiteRoot = new File(batchScripter.getWebsiteRoot());
@@ -64,7 +64,12 @@ public class StaticWebsiteCompiler {
 			filenamesList.add(filename);
 		}
 		
-		new WebsiteParser(batchScripter.getWebsiteRoot(), filenamesList, batchScripter.getWebsiteVersions().get(version-1), batchScripter.getCompilingActions()).parse();
+		if (version!=0) // if version is set --> one parse
+			new WebsiteParser(batchScripter.getWebsiteRoot(), filenamesList, batchScripter.getWebsiteVersions().get(version-1), batchScripter.getCompilingActions()).parse();
+		else { // otherwise --> parsing every version
+			for (WebsiteVersion websiteVersion : batchScripter.getWebsiteVersions())
+				new WebsiteParser(batchScripter.getWebsiteRoot(), filenamesList, websiteVersion, batchScripter.getCompilingActions()).parse();
+		}
 	}
 	
 	/**
