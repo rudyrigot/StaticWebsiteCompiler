@@ -64,7 +64,7 @@ public class StaticWebsiteCompiler {
 			filenamesList.add(filename);
 		}
 		
-		new WebsiteParser(batchScripter.getWebsiteRoot(), filenamesList, batchScripter.getWebsiteVersions().get(version-1), batchScripter.getCompilingActions());
+		new WebsiteParser(batchScripter.getWebsiteRoot(), filenamesList, batchScripter.getWebsiteVersions().get(version-1), batchScripter.getCompilingActions()).parse();
 	}
 	
 	/**

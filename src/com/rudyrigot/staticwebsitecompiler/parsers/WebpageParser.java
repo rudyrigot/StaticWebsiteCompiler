@@ -23,8 +23,8 @@ public class WebpageParser {
 		this.output = new StringBuffer();
 	}
 
-	public StringBuffer parse() {
-		return output;
+	public void parse() {
+		System.out.println("Fichier en traitement : "+fileName);
 	}
 
 }
