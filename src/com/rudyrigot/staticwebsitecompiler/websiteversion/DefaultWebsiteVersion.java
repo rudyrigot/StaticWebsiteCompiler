@@ -13,5 +13,9 @@ public class DefaultWebsiteVersion implements WebsiteVersion {
 	public String getFilenameSuffixe() {
 		return "";
 	}
+	
+	public int getVersionNumber() {
+		return 1;
+	}
 
 }

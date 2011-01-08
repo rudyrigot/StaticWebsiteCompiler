@@ -5,5 +5,6 @@ public interface WebsiteVersion {
 	public String getSubfolderName();
 	public String getFilenamePrefix();
 	public String getFilenameSuffixe();
+	public int getVersionNumber();
 
 }

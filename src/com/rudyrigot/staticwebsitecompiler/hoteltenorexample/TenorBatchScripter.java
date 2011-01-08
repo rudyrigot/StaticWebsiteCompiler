@@ -21,7 +21,7 @@ public class TenorBatchScripter implements BatchScripter {
 		if (this.websiteVersions==null) {
 			List<WebsiteVersion> websiteVersions = new ArrayList<WebsiteVersion>();
 			websiteVersions.add(new DefaultWebsiteVersion());
-			websiteVersions.add(new TenorEnWebsiteVersion());
+			websiteVersions.add(new TenorEnWebsiteVersion(2));
 			this.websiteVersions = websiteVersions;
 		}
 		return this.websiteVersions;
