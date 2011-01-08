@@ -37,7 +37,7 @@ public class WebpageParser {
 			BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(new File(websiteRoot+"/sources/rootpages/"+fileName))));
 			while ((line = br.readLine())!=null) {
 				line = compilingActions.executeCompilingActions(version, line, fileName);
-				output.append(line);
+				if (line.length()>0) output.append(line+" ");
 			}
 			br.close();
 		} catch (FileNotFoundException e) {

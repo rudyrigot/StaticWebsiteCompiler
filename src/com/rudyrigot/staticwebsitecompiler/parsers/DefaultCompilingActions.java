@@ -8,7 +8,7 @@ public class DefaultCompilingActions implements CompilingActions {
 		/** First, let's execute the most common actions */
 		
 		// Minifying the HTML
-		line = line.replaceAll("[ \\n\\t]*", " ");
+		line = line.replaceAll("[ \\n\\t]+", " ");
 		
 		
 		/** Then, let's call for any other extendable stuff */
