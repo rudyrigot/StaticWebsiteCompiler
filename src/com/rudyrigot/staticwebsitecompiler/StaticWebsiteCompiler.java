@@ -1,8 +1,14 @@
 package com.rudyrigot.staticwebsitecompiler;
 
+import java.io.File;
 import java.lang.reflect.Constructor;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.rudyrigot.staticwebsitecompiler.batch.BatchScripter;
+import com.rudyrigot.staticwebsitecompiler.batch.DefaultBatchScripter;
+import com.rudyrigot.staticwebsitecompiler.parsers.WebpageParser;
+import com.rudyrigot.staticwebsitecompiler.parsers.WebsiteParser;
 
 public class StaticWebsiteCompiler {
 	
@@ -31,8 +37,34 @@ public class StaticWebsiteCompiler {
 			i+=2;
 		}
 		
+		// Getting the default BatchScripter is none was specified
+		if (batchScripter==null) batchScripter = new DefaultBatchScripter();
 		
+		// Checking the version
+		if (version==0) version = 1;
+		else if (version>=batchScripter.getWebsiteVersions().size()) usage("The BatchScripter doesn't have a version "+version+", poor guy only has "+batchScripter.getWebsiteVersions().size());
 		
+		// Checking the website root
+		File websiteRoot = new File(batchScripter.getWebsiteRoot());
+		if (!websiteRoot.exists()) usage("The directory "+batchScripter.getWebsiteRoot()+" does not exist.");
+		// It exists alright, but does it contain all it should?
+		File websiteRootSources = new File(batchScripter.getWebsiteRoot()+"/sources");
+		if (!websiteRootSources.exists()) websiteRootSources.mkdir();
+		File websiteRootSourcesRootpages = new File(batchScripter.getWebsiteRoot()+"/sources/rootpages");
+		if (!websiteRootSourcesRootpages.exists()) websiteRootSourcesRootpages.mkdir();
+		File websiteRootSourcesModules = new File(batchScripter.getWebsiteRoot()+"/sources/modules");
+		if (!websiteRootSourcesModules.exists()) websiteRootSourcesModules.mkdir();
+		File websiteRootWebcontent = new File(batchScripter.getWebsiteRoot()+"/WebContent");
+		if (!websiteRootWebcontent.exists()) websiteRootWebcontent.mkdir();
+		
+		// Building the filenames list
+		List<String> filenamesList = null;
+		if (filename!=null) {
+			filenamesList = new ArrayList<String>();
+			filenamesList.add(filename);
+		}
+		
+		new WebsiteParser(batchScripter.getWebsiteRoot(), filenamesList, batchScripter.getWebsiteVersions().get(version-1), batchScripter.getCompilingActions());
 	}
 	
 	/**
