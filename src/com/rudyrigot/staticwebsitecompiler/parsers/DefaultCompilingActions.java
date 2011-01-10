@@ -9,8 +9,9 @@ public class DefaultCompilingActions implements CompilingActions {
 
 	private int versionBeingParsed = 0;
 	private static Pattern versions0nelinerPattern = Pattern.compile("\\{([^\\}]*)\\}");
+	private static Pattern moduleIncluderPattern = Pattern.compile("module\\(([a-z\\-_]+)\\)");
 	
-	public String executeCompilingActions(WebsiteVersion version, String line, String fileName) {
+	public String executeCompilingActions(String websiteRoot, WebsiteVersion version, String line, String fileName) {
 		/** First, let's execute the most common actions */
 		
 		// Minifying the HTML
@@ -44,6 +45,13 @@ public class DefaultCompilingActions implements CompilingActions {
 			return "";
 		}
 		if (versionBeingParsed!=0 && versionBeingParsed!=version.getVersionNumber()) return "";
+		
+		// Modules
+		Matcher m = moduleIncluderPattern.matcher(line);
+		if (m.find()) {
+			WebpageParser webpageParser = new WebpageParser(websiteRoot, version, this, m.group(1)+".html", WebpageParser.FILETYPE_MODULE);
+			return webpageParser.parse();
+		}
 		
 		/** Then, let's call for any other extendable stuff */
 		line = extraCompilingActions(version, line, fileName);

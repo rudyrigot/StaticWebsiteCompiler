@@ -34,9 +34,10 @@ public class WebpageParser {
 	public String parse() {
 		try {
 			String line = null;
-			BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(new File(websiteRoot+"/sources/rootpages/"+fileName))));
+			String fileFullName = websiteRoot+"/sources/"+(fileType==FILETYPE_ROOTPAGE?"rootpages":"modules")+"/"+fileName;
+			BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(new File(fileFullName))));
 			while ((line = br.readLine())!=null) {
-				line = compilingActions.executeCompilingActions(version, line, fileName);
+				line = compilingActions.executeCompilingActions(websiteRoot, version, line, fileName);
 				if (line.length()>0) output.append(line+" ");
 			}
 			br.close();
