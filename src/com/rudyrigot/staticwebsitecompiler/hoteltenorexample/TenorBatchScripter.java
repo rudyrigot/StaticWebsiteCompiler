@@ -10,7 +10,7 @@ import com.rudyrigot.staticwebsitecompiler.websiteversion.WebsiteVersion;
 
 public class TenorBatchScripter implements BatchScripter {
 
-	private String websiteRoot = "/home/rrigot/Macsf/workspace/hoteltenor.com";
+	private String websiteRoot = "/home/rrigot/HotelTenor/workspace/hoteltenor.com";
 	private List<WebsiteVersion> websiteVersions;
 	
 	public String getWebsiteRoot() {
