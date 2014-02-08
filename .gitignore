@@ -1,5 +1,6 @@
 # Compiled files
 bin
+StaticWebsiteCompiler.jar
 
 # Eclipse's stuff
 .project
